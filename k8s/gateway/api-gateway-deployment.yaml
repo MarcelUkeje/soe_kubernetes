@@ -22,8 +22,8 @@ spec:
           command: ['sh', '-c', 'until nc -z patient-service 4000; do echo "Waiting for patient-service..."; sleep 2; done']
       containers:
         - name: api-gateway
-          image: api-gateway:latest
-          imagePullPolicy: IfNotPresent
+          image: 350537283598.dkr.ecr.us-east-2.amazonaws.com/api-gateway:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 4004
           readinessProbe:

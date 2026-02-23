@@ -19,8 +19,8 @@ spec:
           command: ['sh', '-c', 'until nc -z auth-service-db 5432; do echo "Waiting for auth-service-db..."; sleep 2; done']
       containers:
         - name: auth-service
-          image: auth-service:latest
-          imagePullPolicy: IfNotPresent
+          image: 350537283598.dkr.ecr.us-east-2.amazonaws.com/auth-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 4005
           env:
