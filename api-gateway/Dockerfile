@@ -16,7 +16,7 @@ COPY api-gateway/src api-gateway/src
 
 RUN mvn clean package -pl api-gateway -am -DskipTests
 
-FROM openjdk:21-jdk AS runner
+FROM eclipse-temurin:21-jdk AS runner
 WORKDIR /app
 
 COPY --from=builder /app/api-gateway/target/api-gateway-0.0.1-SNAPSHOT.jar app.jar

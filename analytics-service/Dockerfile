@@ -18,7 +18,7 @@ COPY analytics-service/src analytics-service/src
 # Maven will generate Kafka Protobuf stubs here
 RUN mvn clean package -pl analytics-service -am -DskipTests
 
-FROM openjdk:21-jdk AS runner
+FROM eclipse-temurin:21-jdk AS runner
 WORKDIR /app
 
 COPY --from=builder /app/analytics-service/target/analytics-service-0.0.1-SNAPSHOT.jar app.jar

@@ -18,7 +18,7 @@ COPY billing-service/src billing-service/src
 # Maven will automatically trigger protoc generation during compilation
 RUN mvn clean package -pl billing-service -am -DskipTests
 
-FROM openjdk:21-jdk AS runner
+FROM eclipse-temurin:21-jdk AS runner
 WORKDIR /app
 
 # Pull only the generated runner artifact
