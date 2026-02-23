@@ -21,7 +21,8 @@ COPY patient-service/src patient-service/src
 RUN mvn clean package -pl patient-service -am -DskipTests
 
 # Stage 2: Production Runner
-FROM openjdk:21-jdk AS runner
+FROM eclipse-temurin:21-jdk AS runner
+
 WORKDIR /app
 
 COPY --from=builder /app/patient-service/target/patient-service-0.0.1-SNAPSHOT.jar app.jar
