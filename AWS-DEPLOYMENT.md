@@ -88,7 +88,7 @@ eksctl create cluster \
   --name patient-management-cluster \
   --region us-east-1 \
   --nodegroup-name worker-nodes \
-  --node-type t3.medium \
+  --node-type t3.large \
   --nodes 3 \
   --nodes-min 2 \
   --nodes-max 4 \
@@ -97,7 +97,7 @@ eksctl create cluster \
 
 This provisions:
 - A managed EKS control plane
-- 3 `t3.medium` EC2 worker nodes with autoscaling (2-4 nodes)
+- 3 `t3.large` EC2 worker nodes with autoscaling (2-4 nodes)
 - VPC, subnets, and security groups
 
 > Cluster creation takes approximately 15-20 minutes.
