@@ -48,11 +48,6 @@ spec:
           volumeMounts:
             - name: kafka-data
               mountPath: /bitnami/kafka
-  volumeClaimTemplates:
-    - metadata:
-        name: kafka-data
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 2Gi
+      volumes:
+        - name: auth-db-data # Match this name to your volumeMounts
+          emptyDir: { }

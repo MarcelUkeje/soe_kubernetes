@@ -57,12 +57,7 @@ spec:
             periodSeconds: 20
           volumeMounts:
             - name: auth-db-data
-              mountPath: /var/lib/postgresql/data
-  volumeClaimTemplates:
-    - metadata:
-        name: auth-db-data
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 1Gi
+              mountPath: /var/lib/postgresql/
+      volumes:
+       - name: auth-db-data
+         emptyDir: { }

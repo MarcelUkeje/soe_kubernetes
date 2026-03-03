@@ -84,15 +84,18 @@ eksctl version
 ### 2.1 Create the Cluster
 
 ```bash
-eksctl create cluster \
-  --name patient-management-cluster \
+eksctl create cluster \                                                                                       
+  --name patient-management-final \
   --region us-east-1 \
   --nodegroup-name worker-nodes \
-  --node-type t3.large \
-  --nodes 3 \
-  --nodes-min 2 \
-  --nodes-max 4 \
-  --managed
+  --node-type t3.micro \
+  --nodes 5 \
+  --nodes-min 4 \
+  --nodes-max 6 \
+  --managed \
+  --with-oidc \
+  --full-ecr-access \
+  --asg-access
 ```
 
 This provisions:
@@ -105,14 +108,14 @@ This provisions:
 ### 2.2 Verify Cluster Access
 
 ```bash
-# Update kubeconfig
-aws eks update-kubeconfig --name patient-management-cluster --region us-east-1
+# Update kubeconfig for the new cluster name
+aws eks update-kubeconfig --name patient-management-final --region us-east-1
 
 # Verify connectivity
 kubectl get nodes
 ```
 
-Expected output: 3 nodes in `Ready` state.
+Expected output: 5 nodes in `Ready` state.
 
 ---
 
@@ -132,9 +135,13 @@ aws ecr create-repository --repository-name api-gateway --region us-east-1
 ### 3.2 Authenticate Docker to ECR
 
 ```bash
-# Replace <ACCOUNT_ID> with your 12-digit AWS account ID
+# Get your Account ID
+export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+export ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
+
+# Login to ECR
 aws ecr get-login-password --region us-east-1 | \
-  docker login --username AWS --password-stdin <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
+  docker login --username AWS --password-stdin ${ECR_REGISTRY}
 ```
 
 ### 3.3 Build Docker Images
@@ -205,18 +212,17 @@ Files to update:
 StatefulSets (PostgreSQL, Kafka) require EBS-backed persistent volumes.
 
 ```bash
-# Create an IAM OIDC provider for the cluster
+ # Associate OIDC (Required for IAM roles)
 eksctl utils associate-iam-oidc-provider \
-  --cluster patient-management-cluster \
+  --cluster patient-management-final \
   --region us-east-1 \
   --approve
 
-# Install the EBS CSI driver addon
+# Install the storage addon
 eksctl create addon \
   --name aws-ebs-csi-driver \
-  --cluster patient-management-cluster \
+  --cluster patient-management-final \
   --region us-east-1 \
-  --service-account-role-arn arn:aws:iam::${AWS_ACCOUNT_ID}:role/AmazonEKS_EBS_CSI_DriverRole \
   --force
 ```
 
