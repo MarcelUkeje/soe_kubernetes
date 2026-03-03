@@ -16,10 +16,10 @@ spec:
       initContainers:
         - name: wait-for-auth
           image: busybox:1.36
-          command: ['sh', '-c', 'until nc -z auth-service 4005; do echo "Waiting for auth-service..."; sleep 2; done']
+          command: [ 'sh', '-c', 'until nc -z auth-service 4005; do echo "Waiting for auth-service..."; sleep 2; done' ]
         - name: wait-for-patient
           image: busybox:1.36
-          command: ['sh', '-c', 'until nc -z patient-service 4000; do echo "Waiting for patient-service..."; sleep 2; done']
+          command: [ 'sh', '-c', 'until nc -z patient-service 4000; do echo "Waiting for patient-service..."; sleep 2; done' ]
       containers:
         - name: api-gateway
           image: 350537283598.dkr.ecr.us-east-1.amazonaws.com/api-gateway:latest

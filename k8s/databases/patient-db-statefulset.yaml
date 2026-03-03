@@ -59,5 +59,5 @@ spec:
             - name: patient-db-data
               mountPath: /var/lib/postgresql/data
       volumes:
-        - name: auth-db-data # Match this name to your volumeMounts
+        - name: patient-db-data # Match this name to your volumeMounts
           emptyDir: { }

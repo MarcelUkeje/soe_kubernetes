@@ -49,5 +49,5 @@ spec:
             - name: kafka-data
               mountPath: /bitnami/kafka
       volumes:
-        - name: auth-db-data # Match this name to your volumeMounts
+        - name: kafka-data # Match this name to your volumeMounts
           emptyDir: { }
